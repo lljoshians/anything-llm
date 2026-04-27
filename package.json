@@ -1,49 +1,45 @@
 {
   "name": "anything-llm",
-  "version": "1.12.1",
-  "description": "The best solution for turning private documents into a chat bot using off-the-shelf tools and commercially viable AI technologies.",
-  "main": "index.js",
-  "type": "module",
-  "author": "Timothy Carambat (Mintplex Labs)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mintplex-labs/anything-llm.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mintplex-labs/anything-llm/issues"
-  },
-  "homepage": "https://github.com/mintplex-labs/anything-llm#readme",
-  "engines": {
-    "node": ">=18"
-  },
+  "version": "1.0.0",
+  "description": "A full-stack application that lets you turn any document into a queryable database using LLMs",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "server",
+    "collector"
+  ],
   "scripts": {
+    "start": "node server/index.js",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
+    "dev:server": "cd server && nodemon index.js",
+    "dev:frontend": "cd frontend && vite",
+    "dev:collector": "cd collector && nodemon index.js",
+    "setup": "npm install && cd server && npm install && cd ../frontend && npm install && cd ../collector && npm install",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
     "test": "jest",
-    "lint": "cd server && yarn lint && cd ../frontend && yarn lint && cd ../collector && yarn lint",
-    "lint:ci": "cd server && yarn lint:check && cd ../frontend && yarn lint:check && cd ../collector && yarn lint:check",
-    "setup": "cd server && yarn && cd ../collector && yarn && cd ../frontend && yarn && cd .. && yarn setup:envs && yarn prisma:setup && echo \"Please run yarn dev:server, yarn dev:collector, and yarn dev:frontend in separate terminal tabs.\"",
-    "setup:envs": "cp -n ./frontend/.env.example ./frontend/.env; cp -n ./server/.env.example ./server/.env.development; cp -n ./collector/.env.example ./collector/.env; cp -n ./docker/.env.example ./docker/.env; echo \"All ENV files copied!\n\"",
-    "dev:server": "cd server && yarn dev",
-    "dev:collector": "cd collector && yarn dev",
-    "dev:frontend": "cd frontend && yarn dev",
-    "dev:all": "npx concurrently \"yarn dev:server\" \"yarn dev:frontend\" \"yarn dev:collector\"",
     "prisma:generate": "cd server && npx prisma generate",
-    "prisma:migrate": "cd server && npx prisma migrate dev --name init",
-    "prisma:seed": "cd server && npx prisma db seed",
-    "prisma:setup": "yarn prisma:generate && yarn prisma:migrate && yarn prisma:seed",
-    "prisma:reset": "truncate -s 0 server/storage/anythingllm.db && yarn prisma:migrate",
-    "prod:server": "cd server && yarn start",
-    "prod:frontend": "cd frontend && yarn build",
-    "generate:cloudformation": "node cloud-deployments/aws/cloudformation/generate.mjs",
-    "generate::gcp_deployment": "node cloud-deployments/gcp/deployment/generate.mjs",
-    "translations:verify": "cd frontend/src/locales && node verifyTranslations.mjs",
-    "translations:normalize": "cd frontend/src/locales && node normalizeEn.mjs && cd ../../.. && cd frontend && yarn lint && cd .. && yarn translations:verify",
-    "translations:prune": "cd frontend/src/locales && node findUnusedTranslations.mjs --delete && cd ../../../ && yarn translations:normalize",
-    "translations:create": "cd extras/translator && node index.mjs --all"
+    "prisma:migrate": "cd server && npx prisma migrate dev",
+    "prisma:studio": "cd server && npx prisma studio"
   },
-  "private": false,
+  "keywords": [
+    "llm",
+    "ai",
+    "document-qa",
+    "vector-database",
+    "openai",
+    "chatbot"
+  ],
+  "author": "Mintplex Labs",
+  "license": "MIT",
   "devDependencies": {
-    "concurrently": "^9.1.2",
-    "jest": "^29.7.0"
+    "concurrently": "^8.2.0",
+    "eslint": "^8.45.0",
+    "jest": "^29.6.1",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
