@@ -14,6 +14,7 @@
     "dev:server": "cd server && nodemon index.js",
     "dev:frontend": "cd frontend && vite",
     "dev:collector": "cd collector && nodemon index.js",
+    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:frontend\" \"npm run dev:collector\"",
     "setup": "npm install && cd server && npm install && cd ../frontend && npm install && cd ../collector && npm install",
     "lint": "eslint . --ext .js,.jsx",
     "lint:fix": "eslint . --ext .js,.jsx --fix",
