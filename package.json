@@ -18,6 +18,7 @@
     "lint": "eslint . --ext .js,.jsx",
     "lint:fix": "eslint . --ext .js,.jsx --fix",
     "test": "jest",
+    "test:watch": "jest --watch",
     "prisma:generate": "cd server && npx prisma generate",
     "prisma:migrate": "cd server && npx prisma migrate dev",
     "prisma:studio": "cd server && npx prisma studio"
